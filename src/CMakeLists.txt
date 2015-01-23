@@ -1,0 +1,15 @@
+set(CMAKE_CXX_FLAGS "-O3 -std=c++11")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "../bin")
+if (${CMAKE_SYSTEM} MATCHES "Darwin*")
+	include_directories("/Applications/Xcode.app//Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers")
+else (${CMAKE_SYSTEM} MATCHES "linux*")
+	include_directories("/usr/lib/jvm/jdk1.7.0_25/include
+/usr/lib/jvm/jdk1.7.0_25/include/linux")
+endif()
+
+add_library(jnistateful SHARED stateful.cpp)
+if (${CMAKE_SYSTEM} MATCHES "Darwin*")
+	set_target_properties(jnistateful PROPERTIES SUFFIX .jnilib)
+else (${CMAKE_SYSTEM} MATCHES "linux*")
+	set_target_properties(jnistateful PROPERTIES SUFFIX .so)
+endif()
